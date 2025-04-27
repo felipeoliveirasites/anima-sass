@@ -1,5 +1,17 @@
 @use "../_variables" as var
 @use "sass:color"
+
+@mixin anima($imagem, $tempo, $direcao : 'reverse')
+    background-image: url(/imagens/cenario_#{$imagem}.png)
+    animation: anima_cenario #{$tempo} linear infinite #{$direcao}
+    background-size: auto 100%
+    background-repeat: no-repeat
+
+@keyframes anima_cenario 
+    from
+        transform: translateX(-31%) translateY(0) 
+    to 
+        transform: translateX(0%)  translateY(0)
     
 .header-animado 
     $h: 300px
@@ -50,46 +62,23 @@
                 top: 0
                 left: 0
                 right: 0
-            
 
-            @keyframes anima_cenario 
-                from
-                    transform: translateX(-31%) translateY(0) 
-                to 
-                    transform: translateX(0%)  translateY(0)
-                    
-                    
-            .nuvens 
-                background-image: url(/imagens/cenario_nuvens.png)
-                animation: anima_cenario 30s linear infinite reverse
-                background-size: auto 100%
-                background-repeat: no-repeat
+            $anima_elements: ('nuvens'90s,'casas' 30s, 'rua' 30s, 'carrosCima'15s, 'carrosBaixo'15s )
 
-            .casas
-                background-image: url('/imagens/cenario_Casas.png')
-                animation: anima_cenario 30s linear infinite reverse
-                background-size: auto 100%
-                background-repeat: no-repeat
-            
-            .rua
-                background-image: url('/imagens/cenario_rua.png')
-                animation: anima_cenario 30s linear infinite reverse
-                background-size: auto 100%
-                background-repeat: no-repeat
+            $anima_elementss: 'nuvens' 90s,'casas' 30s , 'rua' 30s , 'carrosCima' 15s , 'carrosBaixo' 15s 'normal'
+
+            @each $el, $tempo, $dir in $anima_elementss
+                @if not $dir
+                    $dir: 'reverse'
+                .#{$el} 
+                    @include anima(#{$el}, $tempo, $dir)
 
             .carrosCima
-                background-image: url('/imagens/cenario_carrosCima.png')
-                animation: anima_cenario 10s linear infinite reverse
-                background-size: auto 100%
-                background-repeat: no-repeat
                 position: absolute
                 top: -10px
 
             .carrosBaixo
-                background-image: url('/imagens/cenario_carrosBaixo.png')
-                animation: anima_cenario 10s linear infinite 
-                background-size: auto 100%
-                background-repeat: no-repeat
+                //animation-direction: normal
                 position: absolute
                 top: -12px
 
